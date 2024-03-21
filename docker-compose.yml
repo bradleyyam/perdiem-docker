@@ -1,12 +1,14 @@
-version: '3'
+version: "3"
 
 services:
   app:
     build:
       context: ./
       dockerfile: Dockerfile
+      args:
+        ssh_prv_key: ${SSH_PRV_KEY}
     ports:
-      - '80:3000'
+      - "80:3000"
     depends_on:
       - mongo
     environment:
@@ -14,7 +16,7 @@ services:
       MONGO_URL: mongodb://perdiem:123456@mongo:27017/perdiem?authSource=admin
       PORT: 3000
 
-#docker sets the hostname automatically from the service name
+  #docker sets the hostname automatically from the service name
   mongo:
     image: mongo:latest
     command:
@@ -26,7 +28,7 @@ services:
     volumes:
       - data:/data/db
     ports:
-      - '27017:27017'
+      - "27017:27017"
 
 volumes:
   data:
