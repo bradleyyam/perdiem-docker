@@ -2,12 +2,12 @@
 FROM geoffreybooth/meteor-base:2.11.0
 
 # Copy app package.json and package-lock.json into container
-COPY ../perdiem/package*.json $APP_SOURCE_FOLDER/
+COPY ./../perdiem/package*.json $APP_SOURCE_FOLDER/
 
 RUN bash $SCRIPTS_FOLDER/build-app-npm-dependencies.sh
 
 # Copy app source into container
-COPY ../perdiem $APP_SOURCE_FOLDER/
+COPY ./../perdiem/ $APP_SOURCE_FOLDER/
 
 RUN bash $SCRIPTS_FOLDER/build-meteor-bundle.sh
 
