@@ -49,7 +49,7 @@ echo -ne "\033c"
 declare choice=${options[$current_choice]}
 
 declare environment=${environments[$choice]}
-declare port=3000
+
 
 declare url_prefix=""
 
@@ -57,7 +57,14 @@ if [ $environment != "production" ]; then
     url_prefix=$environment.
 fi
 
-declare root_url=http://${url_prefix}perdiem.me
-declare mongo_url=mongodb://perdiem:40996572@localhost/perdiem_${environment}?authSource=admin
+declare port=3000
 
-HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" PORT=$port ROOT_URL=$root_url MONGO_URL=$mongo_url ENVIRONMENT=$environment docker-compose up
+# test variables
+export root_url=http://localhost
+export mongo_url=mongodb://perdiem:123456@mongo:27017/perdiem?authSource=admin
+
+# uncomment for actual deployment
+#declare root_url=http://${url_prefix}perdiem.me
+#declare mongo_url=mongodb://perdiem:40996572@localhost/perdiem_${environment}?authSource=admin
+
+HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" PORT=$port ROOT_URL=$root_url MONGO_URL=$mongo_url ENVIRONMENT=$environment docker-compose up --build

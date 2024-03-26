@@ -2,6 +2,8 @@
 
 FROM debian:latest
 
+ARG HOST_SSH_KEY
+
 # Install git
 RUN apt-get update && \
     apt-get upgrade -y && \
