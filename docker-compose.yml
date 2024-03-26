@@ -1,4 +1,4 @@
-# HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" docker-compose up
+# HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" ROOT_URL=http://localhost MONGO_URL=mongodb://perdiem:123456@mongo:27017/perdiem?authSource=admin  PORT=3000 docker-compose up
 
 version: "3"
 
