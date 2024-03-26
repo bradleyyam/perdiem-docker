@@ -1,6 +1,3 @@
-# docker build -t build-test --build-arg HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" .
-
-
 #
 # Clone GitHub repository
 #
