@@ -10,13 +10,14 @@ services:
       args:
         - HOST_SSH_KEY=${HOST_SSH_KEY}
     ports:
-      - "80:3000"
+      - "80:${PORT}"
     depends_on:
       - mongo
     environment:
-      ROOT_URL: ${APP_ROOT_URL:-http://localhost}
-      MONGO_URL: mongodb://perdiem:123456@mongo:27017/perdiem?authSource=admin
-      PORT: 3000
+      ROOT_URL: $ROOT_URL
+      MONGO_URL: $MONGO_URL
+      PORT: $PORT
+      ENVIRONMENT: $ENVIRONMENT
 
   #docker sets the hostname automatically from the service name
   mongo:

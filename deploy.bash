@@ -2,6 +2,7 @@
 
 # Options
 options=("Production" "Preview" "QA")
+declare -A environments=( ["Production"]="production" ["Preview"]="preview" ["QA"]="qa" )
 
 # Initial choice is the first one
 current_choice=0
@@ -44,4 +45,19 @@ done
 
 # Clear the screen one last time before displaying the selected option
 echo -ne "\033c"
-echo "You selected: ${options[$current_choice]}"
+
+declare choice=${options[$current_choice]}
+
+declare environment=${environments[$choice]}
+declare port=3000
+
+declare url_prefix=""
+
+if [ $environment != "production" ]; then
+    url_prefix=$environment.
+fi
+
+declare root_url=http://${url_prefix}perdiem.me
+declare mongo_url=mongodb://perdiem:40996572@localhost/perdiem_${environment}?authSource=admin
+
+HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" PORT=$port ROOT_URL=$root_url MONGO_URL=$mongo_url ENVIRONMENT=$environment docker-compose up
