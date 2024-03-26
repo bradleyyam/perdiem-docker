@@ -1,3 +1,5 @@
+# HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" docker-compose up
+
 version: "3"
 
 services:
@@ -6,7 +8,7 @@ services:
       context: ./
       dockerfile: Dockerfile
       args:
-        ssh_prv_key: ${SSH_PRV_KEY}
+        - HOST_SSH_KEY=${HOST_SSH_KEY}
     ports:
       - "80:3000"
     depends_on:
@@ -29,6 +31,11 @@ services:
       - data:/data/db
     ports:
       - "27017:27017"
+
+
+secrets:
+  host_ssh_key:
+    file: ~/.ssh/id_rsa
 
 volumes:
   data:
