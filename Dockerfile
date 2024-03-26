@@ -1,5 +1,9 @@
 # docker build -t build-test --build-arg HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" .
 
+
+#
+# Clone GitHub repository
+#
 FROM debian:latest
 
 ARG HOST_SSH_KEY
@@ -22,6 +26,10 @@ RUN git clone git@github.com:JoaoCardoso193/perdiem.git && \
     git checkout docker-test && \
     git pull
 
+
+#
+# Build Meteor app
+#
 # The tag here should match the Meteor version of your app, per .meteor/release
 FROM geoffreybooth/meteor-base:2.11.0
 
@@ -34,7 +42,9 @@ RUN cd $APP_SOURCE_FOLDER/perdiem && \
     meteor build --directory $APP_BUNDLE_FOLDER --server-only
 
 
-
+#
+# Node environment - Get build files and run them
+#
 FROM meteor/node:14.21.4-alpine3.17
 
 ENV APP_BUNDLE_FOLDER /opt/bundle
