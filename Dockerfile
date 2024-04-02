@@ -55,4 +55,4 @@ COPY ./config/token.json ./bundle
 RUN cd ./bundle/programs/server && \
     npm install
 
-CMD [ "node", "./bundle/main.js"]
+CMD [ "node", "./bundle/main.js" ]
