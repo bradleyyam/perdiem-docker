@@ -1,0 +1,2 @@
+[server_groups]
+staging ansible_host=207.148.19.5 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_extra_args='-o StrictHostKeyChecking=no -o ForwardAgent=yes -o ControlPath=/tmp/ansible-ssh-%h-%p-%r'

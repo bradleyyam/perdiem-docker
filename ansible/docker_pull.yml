@@ -1,0 +1,41 @@
+- hosts: all
+  remote_user: root
+  become: yes
+
+  tasks:
+  - name: Pull the Docker Image
+    docker_image:
+      name: "bigbelmar/perdiem-app"
+      source: pull
+
+  - name: Create a Docker Network
+    docker_network:
+      name: perdiem_network
+      state: present
+
+  - name: Start the Mongo Container
+    docker_container:
+      name: perdiem-mongo
+      image: mongo:latest
+      state: started
+      networks:
+        - name: perdiem_network
+      env:
+        MONGO_INITDB_ROOT_USERNAME: "perdiem"
+        MONGO_INITDB_ROOT_PASSWORD: "123456"
+        MONGO_INITDB_DATABASE: "perdiem"
+      volumes:
+        - data:/data/db
+      ports:
+        - "27017:27017"
+
+  - name: Start the App Container
+    docker_container:
+      name: perdiem-app
+      image: "bigbelmar/perdiem-app"
+      state: started
+      env:
+        ROOT_URL: http://207.148.19.5/
+        MONGO_URL: mongodb://perdiem:123456@perdiem-mongo/perdiem?authSource=admin
+      ports:
+        - "80:3000"

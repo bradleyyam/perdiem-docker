@@ -67,4 +67,6 @@ export mongo_url=mongodb://perdiem:123456@mongo:27017/perdiem?authSource=admin
 #declare root_url=http://${url_prefix}perdiem.me
 #declare mongo_url=mongodb://perdiem:40996572@localhost/perdiem_${environment}?authSource=admin
 
+HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" PORT=3000 ROOT_URL=http://207.148.19.5/ MONGO_URL=mongodb://perdiem:40996572@localhost/perdiem?authSource=admin docker-compose build
+
 HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" PORT=$port ROOT_URL=$root_url MONGO_URL=$mongo_url ENVIRONMENT=$environment docker-compose up

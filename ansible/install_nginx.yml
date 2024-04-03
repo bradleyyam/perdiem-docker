@@ -1,0 +1,36 @@
+- name: Install and start Nginx
+  hosts: all
+  remote_user: debian
+  become: yes
+  
+  tasks:
+    - name: ensure nginx is at the latest version
+      apt: 
+        name: nginx
+        state: latest
+        
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+
+    - name: copy nginx config to remote
+      copy:
+        src: nginx-config
+        dest: /etc/nginx/sites-available/perdiem
+
+    - name: create symbolic link to sites-enabled
+      file:
+        src: /etc/nginx/sites-available/perdiem
+        dest: /etc/nginx/sites-enabled/perdiem
+        state: link
+
+    - name: remove default config file from sites-enabled
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
