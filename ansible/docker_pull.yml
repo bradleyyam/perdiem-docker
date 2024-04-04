@@ -34,8 +34,11 @@
       name: perdiem-app
       image: "bigbelmar/perdiem-app"
       state: started
+      networks:
+        - name: perdiem_network
       env:
-        ROOT_URL: http://207.148.19.5/
+        ROOT_URL: http://0.0.0.0/
         MONGO_URL: mongodb://perdiem:123456@perdiem-mongo/perdiem?authSource=admin
+        PORT: "3000"
       ports:
         - "80:3000"
