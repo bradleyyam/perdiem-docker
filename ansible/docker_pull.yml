@@ -16,6 +16,7 @@
   - name: Start the Mongo Container
     docker_container:
       name: perdiem-mongo
+      restart_policy: always
       image: mongo:latest
       state: started
       networks:
@@ -32,6 +33,7 @@
   - name: Start the App Container
     docker_container:
       name: perdiem-app
+      restart_policy: always
       image: "bigbelmar/perdiem-app"
       state: started
       networks:
