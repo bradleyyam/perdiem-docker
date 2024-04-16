@@ -43,4 +43,4 @@
         MONGO_URL: mongodb://perdiem:123456@perdiem-mongo/perdiem?authSource=admin
         PORT: "3000"
       ports:
-        - "80:3000"
+        - "3000:3000"
