@@ -1,0 +1,31 @@
+- hosts: all
+  remote_user: root
+  become: yes
+
+  tasks:
+  - name: Install Certbot
+    pip:
+      name:
+        - certbot
+        - certbot-nginx
+
+  - name: Register certbot
+    shell: |
+      certbot -n register --agree-tos --email tomasbelmarcosta@gmail.com
+      touch /etc/letsencrypt/.registered
+    args:
+      creates: /etc/letsencrypt/.registered
+
+  - name: Setup cronjob for renewal
+    cron:
+      name: certbot-renewal
+      job: "/bin/bash -lc '/usr/local/bin/certbot -q renew'"
+      minute: "0"
+      hour: "14"
+
+  - name: 'Get certificate'
+    command: '/usr/local/bin/certbot -n --nginx -d staging.perdiem.me'
+    args:
+      creates: '/etc/letsencrypt/live/staging.perdiem.me'
+
+    
