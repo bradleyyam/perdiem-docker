@@ -3,11 +3,6 @@
   become: yes
 
   tasks:
-  - name: Pull the Docker Image
-    docker_image:
-      name: "bigbelmar/perdiem-app"
-      source: pull
-
   - name: Create a Docker Network
     docker_network:
       name: perdiem_network
@@ -36,6 +31,7 @@
       restart_policy: always
       image: "bigbelmar/perdiem-app"
       state: started
+      pull: true
       networks:
         - name: perdiem_network
       env:
@@ -43,4 +39,4 @@
         MONGO_URL: mongodb://perdiem:123456@perdiem-mongo/perdiem?authSource=admin
         PORT: "3000"
       ports:
-        - "3000:80"
+        - "3000:3000"
