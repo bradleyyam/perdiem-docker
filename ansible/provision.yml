@@ -1,0 +1,11 @@
+- name: Ensure Docker is installed
+  import_playbook: provision/install_docker.yml
+
+- name: Ensure Nginx is installed
+  import_playbook: provision/install_nginx.yml
+
+- name: Ensure config files are on host server
+  import_playbook: provision/copy_config.yml
+
+- name: Ensure SSL certificate exists and is up to date
+  import_playbook: provision/ssl.yml
