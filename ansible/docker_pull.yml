@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: "{{ deploy_env }}"
   remote_user: root
   become: yes
 
@@ -40,6 +40,6 @@
           PORT: "3000"
         ports:
           - "3000:3000"
-        mount:
+        mounts:
           - source: /root/config
           - target: /app/bundle/config
