@@ -27,9 +27,9 @@
 
     - name: Start the App Container
       docker_container:
-        name: perdiem-app
+        name: perdiem-{{ deploy_env }}
         restart_policy: always
-        image: "bigbelmar/perdiem-app"
+        image: "bigbelmar/perdiem-{{ deploy_env }}:latest"
         state: started
         pull: true
         networks:
@@ -40,6 +40,5 @@
           PORT: "3000"
         ports:
           - "3000:3000"
-        mounts:
-          - source: /root/config
-          - target: /app/bundle/config
+        volumes:
+          - ./config:/app/bundle/config
