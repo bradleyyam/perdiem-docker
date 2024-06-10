@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Options
-options=("Production" "Preview" "QA" "Staging")
-declare -A environments=( ["Production"]="production" ["Preview"]="preview" ["QA"]="qa" ["Staging"]="staging" )
+options=("Production" "QA" "Staging")
+declare -A environments=( ["Production"]="production" ["QA"]="qa" ["Staging"]="staging" )
 declare -A addresses=( ["staging"]=140.82.2.145 )
 
 # Initial choice is the first one
 current_choice=0
 
-print_menu() {
+menu_choose_env() {
     # Clear the screen and move the cursor to the top left
     echo -ne "\033c"
     
@@ -23,9 +23,9 @@ print_menu() {
     done
 }
 
-# Listen for up and down arrow keys
+# Initial choice
 while true; do
-    print_menu
+    menu_choose_env
     # Wait for user input
     read -rsn3 input
 
@@ -48,29 +48,6 @@ done
 echo -ne "\033c"
 
 declare choice=${options[$current_choice]}
-
 declare environment=${environments[$choice]}
-declare ip = ${addresses[$environment]}
 
-
-declare url_prefix=""
-
-if [ $environment != "production" ]; then
-    url_prefix=$environment.
-fi
-
-declare port=3000
-
-cd ansible && ansible-playbook -i inventory docker_pull.yml
-
-# test variables
-#export root_url=http://localhost
-#export mongo_url=mongodb://perdiem:123456@mongo:27017/perdiem?authSource=admin
-
-# uncomment for actual deployment
-#declare root_url=http://${url_prefix}perdiem.me
-#declare mongo_url=mongodb://perdiem:40996572@localhost/perdiem_${environment}?authSource=admin
-
-#HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" PORT=3000 ROOT_URL=http://207.148.19.5/ MONGO_URL=mongodb://perdiem:40996572@localhost/perdiem?authSource=admin docker-compose build
-
-#HOST_SSH_KEY="$(cat ~/.ssh/id_rsa)" PORT=$port ROOT_URL=$root_url MONGO_URL=$mongo_url ENVIRONMENT=$environment docker-compose up
+cd ansible && ansible-playbook -i inventory deploy.yml --extra-vars "DEPLOY_ENV=$environment"

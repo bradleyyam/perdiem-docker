@@ -1,0 +1,14 @@
+- name: Deploy secrets to host
+  hosts: all
+  remote_user: debian
+  become: yes
+
+  tasks:
+    - name: permit traffic in default zone for https service
+      community.general.ufw:
+        rule: allow
+        port: '{{ item }}'
+      loop:
+        - '80'
+        - '443'
+

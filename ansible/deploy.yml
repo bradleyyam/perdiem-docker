@@ -1,9 +1,9 @@
-- hosts: "{{ deploy_env }}"
+- hosts: "{{ DEPLOY_ENV }}"
   remote_user: root
   become: yes
 
   tasks:
-    - name: Create a Docker Network
+    - name: Ensure Docker Network is present
       docker_network:
         name: perdiem_network
         state: present
@@ -27,9 +27,9 @@
 
     - name: Start the App Container
       docker_container:
-        name: perdiem-{{ deploy_env }}
+        name: perdiem-${{ DEPLOY_ENV }}
         restart_policy: always
-        image: "bigbelmar/perdiem-{{ deploy_env }}:latest"
+        image: "bigbelmar/perdiem-${{ DEPLOY_ENV }}"
         state: started
         pull: true
         networks:
